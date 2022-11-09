@@ -1,0 +1,3 @@
+EXPORTAR BD:
+
+mysqldump --user=root -p --host=127.0.0.1 --triggers --routines --add-drop-database --databases pollygraydb  > C:\Users\tux\OneDrive\Documents\NetBeansProjects\GaleriaPollyGray\mysql\pollygraydb.sql
