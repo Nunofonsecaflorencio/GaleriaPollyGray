@@ -319,10 +319,17 @@ UNLOCK TABLES;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `comprar_arte`(idArtee INT, idClientee INT, unidadess INT)
 BEGIN
+
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+		ROLLBACK;
+	END;
+    START TRANSACTION;
+    
 	IF (EXISTS (SELECT * FROM Artes WHERE idArte = idArtee)) THEN
 		IF ((SELECT esgotado FROM Artes WHERE idArte = idArtee) = FALSE) THEN
 			UPDATE Artes SET unidades = unidades - 1;
@@ -331,11 +338,15 @@ BEGIN
 			VALUES (idClientee, idArtee, NOW(), unidadess, unidades * (SELECT preco FROM Artes WHERE idArte = idArtee));
 
 		ELSE
-			SELECT "Arte Esgotada" as Erro;
+			SIGNAL SQLSTATE '45000' SET
+			MESSAGE_TEXT = "Arte Esgotada";
 		END IF;
 	ELSE
-		SELECT "A Arte Não Existe" as Erro;
+        SIGNAL SQLSTATE '45000' SET
+		MESSAGE_TEXT = "A Arte Não Existe";
 	END IF;
+    
+    COMMIT;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -355,12 +366,20 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `publicar_arte`(idArtista INT, idCategoria INT, titulo VARCHAR(100), unidades INT, preco FLOAT, imagem VARCHAR(100), descricao LONGTEXT)
 BEGIN
 	DECLARE idd INT;
-	INSERT INTO Arte (titulo, unidades, preco, imagem, descricao, dataPublicacao) VALUES (titulo, unidades, preco, imagem, descricao, NOW());
 
+
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+		ROLLBACK;
+	END;
+    START TRANSACTION;
+    
+	INSERT INTO Arte (titulo, unidades, preco, imagem, descricao, dataPublicacao) VALUES (titulo, unidades, preco, imagem, descricao, NOW());
 	SET idd = (SELECT idArte FROM Arte WHERE (Arte.titulo = titulo AND Arte.imagem = imagem AND Arte.preco = preco));
-	
 	INSERT INTO Artista_Arte VALUES (idArtista, idd);
 	INSERT INTO Arte_Categoria VALUES (idd, idCategoria);
+    
+    COMMIT;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -377,4 +396,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-09 17:54:47
+-- Dump completed on 2022-11-19 13:44:21
