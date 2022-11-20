@@ -41,7 +41,10 @@ CREATE TABLE `arte` (
   `descricao` longtext DEFAULT NULL,
   `dataPublicacao` date NOT NULL,
   `esgotado` tinyint(4) DEFAULT 0,
-  PRIMARY KEY (`idArte`)
+  `ano` varchar(4) GENERATED ALWAYS AS (year(`dataPublicacao`)) STORED,
+  PRIMARY KEY (`idArte`),
+  KEY `i_Estado_Arte` (`esgotado`),
+  KEY `i_DataPublicacao_Arte` (`ano`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -51,7 +54,7 @@ CREATE TABLE `arte` (
 
 LOCK TABLES `arte` WRITE;
 /*!40000 ALTER TABLE `arte` DISABLE KEYS */;
-INSERT INTO `arte` VALUES (1,'Arte 1',1,10.5,'CowBoy.jpg','arte teste','2022-11-01',0),(2,'Arte 1',1,10.5,'CowBoy.jpg','aa','2022-11-01',0),(3,'Arte 2',1,100.5,'Freestyle.jpg','asdasd','2022-11-01',0),(4,'Arte 3',1,1020.5,'desafio.png','asdasd','2022-11-01',0),(5,'Arte 4',1,11020.5,'joker mam.png','asdasdasdas','2022-11-01',0),(7,'Tiger',1,4004.5,'tiger.jpg','Thats not me! \nTrust.','2022-11-01',0);
+INSERT INTO `arte` VALUES (1,'Arte 1',1,10.5,'CowBoy.jpg','arte teste','2022-11-01',0,'2022'),(2,'Arte 1',1,10.5,'CowBoy.jpg','aa','2022-11-01',0,'2022'),(3,'Arte 2',1,100.5,'Freestyle.jpg','asdasd','2022-11-01',0,'2022'),(4,'Arte 3',1,1020.5,'desafio.png','asdasd','2022-11-01',0,'2022'),(5,'Arte 4',1,11020.5,'joker mam.png','asdasdasdas','2022-11-01',0,'2022'),(7,'Tiger',1,4004.5,'tiger.jpg','Thats not me! \nTrust.','2022-11-01',0,'2022');
 /*!40000 ALTER TABLE `arte` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -188,7 +191,9 @@ CREATE TABLE `artista` (
   `contactos` mediumtext DEFAULT NULL,
   `biografia` longtext DEFAULT NULL,
   `imagem` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`idArtista`)
+  `ano` varchar(4) GENERATED ALWAYS AS (year(`dataNascimento`)) STORED,
+  PRIMARY KEY (`idArtista`),
+  KEY `i_DataNascimento_Arte` (`ano`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -198,7 +203,7 @@ CREATE TABLE `artista` (
 
 LOCK TABLES `artista` WRITE;
 /*!40000 ALTER TABLE `artista` DISABLE KEYS */;
-INSERT INTO `artista` VALUES (1,'Nuno Fonseca Florencio','2003-10-31','Pessoal: +258 84 3698 443\nEmail: nunofonsecaflorencio@gmail.com\nInstagram: @nuno2f','Sou um artista gráfico.\n\nTrabalho com:\n- Manipulação de imagens;\n- Criação de Logotipos e Identidade Visual;\n- Desenhos vectoriais.\n\nEspero que gostes do meu trabalho artístico.','toolate.jpg'),(7,'Belarmino Junior','2003-09-17','Email: belarminosimaojunior@petalmail.com\nInstagram: @wonderr____\nWhtasApp: +258 85 637 9600','Let\'s leave it empty !!!','Bela.jpg');
+INSERT INTO `artista` VALUES (1,'Nuno Fonseca Florencio','2003-10-31','Pessoal: +258 84 3698 443\nEmail: nunofonsecaflorencio@gmail.com\nInstagram: @nuno2f','Sou um artista gráfico.\n\nTrabalho com:\n- Manipulação de imagens;\n- Criação de Logotipos e Identidade Visual;\n- Desenhos vectoriais.\n\nEspero que gostes do meu trabalho artístico.','toolate.jpg','2003'),(7,'Belarmino Junior','2003-09-17','Email: belarminosimaojunior@petalmail.com\nInstagram: @wonderr____\nWhtasApp: +258 85 637 9600','Let\'s leave it empty !!!','Bela.jpg','2003');
 /*!40000 ALTER TABLE `artista` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -396,4 +401,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-19 13:44:21
+-- Dump completed on 2022-11-20 20:58:46
