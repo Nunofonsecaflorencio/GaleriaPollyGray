@@ -8,6 +8,42 @@ import javax.swing.*;
 import java.sql.*;
 
 public class ArteDAO implements DAO<Arte>{
+    public static Artista getArtistByArt(int idArte) {
+        String query = "SELECT * FROM Artista WHERE Artista.idArtista = " +
+                "(SELECT idArtista FROM Artista_Arte WHERE idArte = ?)" ;
+
+        Artista artista = null;
+        try {
+            Connection conn = PollyDatabase.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query);
+
+            stmt.setInt(1, idArte);
+
+
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()){
+                artista = new Artista(
+                        rs.getInt("idArtista"),
+                        rs.getString("nome"),
+                        rs.getString("dataNascimento"),
+                        rs.getString("contactos"),
+                        rs.getString("biografia"),
+                        rs.getString("imagem")
+                );
+            }
+            stmt.close();
+            rs.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }catch (NullPointerException e) {
+            System.out.println("[EXCEPTION] NO DATA BASE CONNECTION");
+        }
+
+        return artista;
+    }
+
     @Override
     public void create(Arte arte) {
         String query = "call publicar_arte(?, ?, ?, ?, ?, ?, ?)" ;

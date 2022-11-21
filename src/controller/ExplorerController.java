@@ -1,18 +1,20 @@
 package controller;
 
+import model.dao.ArteDAO;
 import model.entity.Arte;
+import model.entity.Artista;
 import utility.PollyConstants;
 import view.PollyGrayFrame;
 import view.auxiliarpanels.FeedArtRenderer;
+import view.panels.ArtistFormPanel;
 import view.panels.DetailPanel;
 import view.panels.ExplorerPanel;
+import view.panels.PublishPanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +34,8 @@ public class ExplorerController {
 
     MouseListener clickToArtListener;
 
+    Artista artista;
+
     public ExplorerController(DefaultListModel<Arte> artesModel) {
         /*
             Containers
@@ -48,15 +52,25 @@ public class ExplorerController {
          */
         arts = artesModel;
 
+        ActionListener updateArtListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Hello");
+            }
+        };
+
 
         clickToArtListener = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 Arte arte = ((FeedArtRenderer)e.getSource()).getArte();
                 DetailPanel detailPanel = new DetailPanel(loadedImages.get(arte));
+                detailPanel.addUpdateActionListener(updateArtListener);
+
+                artista = ArteDAO.getArtistByArt(arte.getIdArte());
 
                 detailPanel.setTitulo(arte.getTitulo());
-                detailPanel.setNomeArtista("Nuno Fonseca Florêncio");
+                detailPanel.setNomeArtista(artista.getNome());
                 detailPanel.setDataPublicacao(PollyConstants.reformatDate(arte.getDataPublicacao()));
                 detailPanel.setPreco(arte.getPreco());
                 detailPanel.setUnidades(arte.getUnidades());

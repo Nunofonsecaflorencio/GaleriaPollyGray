@@ -103,6 +103,16 @@ public class ArtsController {
             }
         });
 
+        ActionListener editArtListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                publishPanel = new PublishPanel();
+                publishPanel.setCategoriesModel(categoriaModel);
+            }
+        };
+
+
+
 
         explorerController = new ExplorerController(artesModel);
 
