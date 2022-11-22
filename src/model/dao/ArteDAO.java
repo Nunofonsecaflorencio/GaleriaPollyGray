@@ -130,7 +130,22 @@ public class ArteDAO implements DAO<Arte>{
     }
 
     @Override
-    public void delete(Arte obj) {
+    public void delete(Arte arte) {
+        String query = "DELETE FROM Arte WHERE Arte.idArte = ?";
 
+        try {
+            Connection conn = PollyDatabase.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query);
+
+            stmt.setInt(1, arte.getIdArte());
+
+            stmt.executeUpdate();
+            stmt.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }catch (NullPointerException e) {
+            System.out.println("[EXCEPTION] NO DATA BASE CONNECTION");
+        }
     }
 }

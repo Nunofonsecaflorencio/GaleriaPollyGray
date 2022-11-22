@@ -15,6 +15,7 @@ import java.util.HashMap;
 import model.entity.Arte;
 import model.entity.Artista;
 import view.PollyGrayFrame;
+import view.auxiliarpanels.FeedArtRenderer;
 
 public class PollyConstants {
 
@@ -31,8 +32,8 @@ public class PollyConstants {
     public static String IMAGE_DATABASE = ASSETSPATH + "img_database\\";
     public static String ARTISTS_IMAGE_DATABASE = IMAGE_DATABASE + "artists\\";
     public static String ARTS_IMAGE_DATABASE = IMAGE_DATABASE  + "arts\\";
-    
-    static HashMap<String, BufferedImage> images = new HashMap<>();
+
+
     
     static PollyGrayFrame frame;
     public static JPanel lastPanel;
@@ -72,23 +73,6 @@ public class PollyConstants {
         return new ImageIcon(PollyConstants.ASSETSPATH + "icons\\" + name);
     }
 
-    public static BufferedImage readImage(String imageName) {
-        BufferedImage image = null;
-        
-        if (images.containsKey(imageName))
-            return images.get(imageName);
-        
-        try {
-            System.out.println("READING " + imageName);
-            image = ImageIO.read(new File(IMAGE_DATABASE + imageName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("READING DONE " + imageName);
-        
-        images.put(imageName, image);
-        return image;
-    }
 
     static {
         try {

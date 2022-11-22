@@ -36,7 +36,9 @@ public class ExplorerController {
 
     Artista artista;
 
-    public ExplorerController(DefaultListModel<Arte> artesModel, ActionListener updateArtListener) {
+    DetailPanel detailPanel;
+
+    public ExplorerController(DefaultListModel<Arte> artesModel, ActionListener listeners[]) {
         /*
             Containers
          */
@@ -60,14 +62,17 @@ public class ExplorerController {
             public void mouseClicked(MouseEvent e) {
                 Arte arte = ((FeedArtRenderer)e.getSource()).getArte();
                 PollyConstants.arteSelecionada = arte;
-                DetailPanel detailPanel = new DetailPanel(loadedImages.get(arte));
-                detailPanel.addUpdateActionListener(updateArtListener);
+                detailPanel = new DetailPanel(loadedImages.get(arte));
+                detailPanel.addUpdateActionListener(listeners[0]);
+                detailPanel.addDeleteActionListener(listeners[1]);
+                //detailPanel.addComprarActionListener(listeners[2]);
 
+                if (arte.getIdArte() != -1) //Significa que ainda não temos toda informação que esta na tebela (Restart)
                 artista = ArteDAO.getArtistByArt(arte.getIdArte());
 
                 detailPanel.setTitulo(arte.getTitulo());
-                detailPanel.setNomeArtista(artista.getNome());
-                detailPanel.setDataPublicacao(PollyConstants.reformatDate(arte.getDataPublicacao()));
+                detailPanel.setNomeArtista((arte.getIdArte() == -1)? "--" : artista.getNome());
+                detailPanel.setDataPublicacao((arte.getIdArte() == -1)? "--" :PollyConstants.reformatDate(arte.getDataPublicacao()));
                 detailPanel.setPreco(arte.getPreco());
                 detailPanel.setUnidades(arte.getUnidades());
                 detailPanel.setDescricao(arte.getDescricao());
@@ -77,6 +82,7 @@ public class ExplorerController {
                 PollyConstants.lastPanel = detailPanel;
             }
         };
+
 
         for (int i = 0; i < arts.getSize(); i++) {
             addArtToWait(arts.elementAt(i));
