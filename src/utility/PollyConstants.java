@@ -43,7 +43,9 @@ public class PollyConstants {
     public static String ARTISTFORM_CARD = "Form";
     public static String PROFILE_CARD = "Perfil";
     public static final String DETAIL_CARD = "Detalhe";
-    
+
+
+    public static Arte arteSelecionada;
     
     public static PollyGrayFrame getFrame() {
         return frame;

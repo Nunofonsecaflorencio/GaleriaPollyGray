@@ -36,7 +36,7 @@ public class ExplorerController {
 
     Artista artista;
 
-    public ExplorerController(DefaultListModel<Arte> artesModel) {
+    public ExplorerController(DefaultListModel<Arte> artesModel, ActionListener updateArtListener) {
         /*
             Containers
          */
@@ -52,18 +52,14 @@ public class ExplorerController {
          */
         arts = artesModel;
 
-        ActionListener updateArtListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Hello");
-            }
-        };
+
 
 
         clickToArtListener = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 Arte arte = ((FeedArtRenderer)e.getSource()).getArte();
+                PollyConstants.arteSelecionada = arte;
                 DetailPanel detailPanel = new DetailPanel(loadedImages.get(arte));
                 detailPanel.addUpdateActionListener(updateArtListener);
 

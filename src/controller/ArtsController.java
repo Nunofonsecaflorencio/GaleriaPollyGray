@@ -103,18 +103,55 @@ public class ArtsController {
             }
         });
 
-        ActionListener editArtListener = new ActionListener() {
+        ActionListener updateArt= new ActionListener(){
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                publishPanel = new PublishPanel();
+                Arte arte = PollyConstants.arteSelecionada;
+
+                arte.setTitulo(publishPanel.getTitulo());
+                arte.setUnidades(publishPanel.getUnidades());
+                arte.setPreco(publishPanel.getPreco());
+                if (fileChooser.getSelectedFile() != null){
+                    arte.setImagem(fileChooser.getSelectedFile().getName());
+                }
+                arte.setDescricao(publishPanel.getDescricao());
+
+                if (isArtValid(arte)) {
+
+                    if (fileChooser.getSelectedFile() != null){
+                        PollyConstants.copyFile(fileChooser.getSelectedFile(),
+                                new File(PollyConstants.ARTS_IMAGE_DATABASE + arte.getImagem()));
+
+                        explorerController.addArtToWait(arte);
+                        explorerController.processWaitingImages();
+                    }
+
+                    arteDAO.update(arte);
+
+
+                    PollyConstants.getFrame().goFromTo(publishPanel, PollyConstants.EXPLORER_CARD);
+                }
+            }
+        };
+
+        ActionListener updateArtListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                publishPanel = new PublishPanel(PollyConstants.arteSelecionada);
                 publishPanel.setCategoriesModel(categoriaModel);
+                publishPanel.addPublishActionListener(updateArt);
+
+                PollyConstants.getFrame().getCardsPanel().add(publishPanel, PollyConstants.PUBLISH_CARD);
+                PollyConstants.getFrame().go(PollyConstants.PUBLISH_CARD);
+                PollyConstants.lastPanel = publishPanel;
             }
         };
 
 
 
 
-        explorerController = new ExplorerController(artesModel);
+        explorerController = new ExplorerController(artesModel, updateArtListener);
 
     }
 

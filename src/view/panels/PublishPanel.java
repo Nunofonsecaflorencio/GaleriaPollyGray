@@ -1,5 +1,6 @@
 package view.panels;
 
+import model.entity.Arte;
 import model.entity.Artista;
 import utility.PollyConstants;
 import utility.SimpleButton;
@@ -23,7 +24,8 @@ public class PublishPanel extends JPanel {
     JTextArea aDescription;
     JButton bCancel, bPublish, bImage;
 
-    public PublishPanel() {
+
+    public PublishPanel(Arte arte) {
         setBackground(PollyConstants.LIGHT);
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -42,6 +44,25 @@ public class PublishPanel extends JPanel {
                 PollyConstants.getFrame().goFromTo(PublishPanel.this, PollyConstants.ARTISTS_CARD);   
             }
         });
+
+        if (arte != null)
+            populateFields(arte);
+    }
+
+    public PublishPanel() {
+        this(null);
+    }
+
+    private void populateFields(Arte arte) {
+
+        tTitle.setText(arte.getTitulo());
+        cCategory.setSelectedIndex(-1);
+        cCategory.setEnabled(false);
+        sUnits.setValue(arte.getUnidades());
+        tPrice.setValue(arte.getPreco());
+        tImage.setText(arte.getImagem());
+        aDescription.setText(arte.getDescricao());
+
     }
 
     private void initComponents() {
