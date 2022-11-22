@@ -45,7 +45,7 @@ CREATE TABLE `arte` (
   PRIMARY KEY (`idArte`),
   KEY `i_Estado_Arte` (`esgotado`),
   KEY `i_DataPublicacao_Arte` (`ano`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -54,7 +54,7 @@ CREATE TABLE `arte` (
 
 LOCK TABLES `arte` WRITE;
 /*!40000 ALTER TABLE `arte` DISABLE KEYS */;
-INSERT INTO `arte` VALUES (1,'Arte 1',1,10.5,'CowBoy.jpg','arte teste','2022-11-01',0,'2022'),(2,'Arte 1',1,10.5,'CowBoy.jpg','aa','2022-11-01',0,'2022'),(3,'Arte 2',1,100.5,'Freestyle.jpg','asdasd','2022-11-01',0,'2022'),(4,'Arte 3',1,1020.5,'desafio.png','asdasd','2022-11-01',0,'2022'),(5,'Arte 4',1,11020.5,'joker mam.png','asdasdasdas','2022-11-01',0,'2022'),(7,'Tiger',1,4004.5,'tiger.jpg','Thats not me! \nTrust.','2022-11-01',0,'2022');
+INSERT INTO `arte` VALUES (8,'Barretinho',1,500,'barreto.jpg','Você bota fogo no circo?\nO que você faz com as criançãs lá dentro?\n~Barreto','2022-11-22',0,'2022');
 /*!40000 ALTER TABLE `arte` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -153,7 +153,7 @@ CREATE TABLE `arte_categoria` (
 
 LOCK TABLES `arte_categoria` WRITE;
 /*!40000 ALTER TABLE `arte_categoria` DISABLE KEYS */;
-INSERT INTO `arte_categoria` VALUES (5,1),(7,1);
+INSERT INTO `arte_categoria` VALUES (8,1);
 /*!40000 ALTER TABLE `arte_categoria` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -230,7 +230,7 @@ CREATE TABLE `artista_arte` (
 
 LOCK TABLES `artista_arte` WRITE;
 /*!40000 ALTER TABLE `artista_arte` DISABLE KEYS */;
-INSERT INTO `artista_arte` VALUES (1,7),(7,4),(7,5);
+INSERT INTO `artista_arte` VALUES (1,8);
 /*!40000 ALTER TABLE `artista_arte` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -255,7 +255,7 @@ CREATE TABLE `categoria` (
 
 LOCK TABLES `categoria` WRITE;
 /*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
-INSERT INTO `categoria` VALUES (1,'Conceptual',0),(2,'Rupestre',0);
+INSERT INTO `categoria` VALUES (1,'Conceptual',-1),(2,'Rupestre',0);
 /*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -401,4 +401,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-20 20:58:46
+-- Dump completed on 2022-11-22 15:55:23
