@@ -65,7 +65,7 @@ public class ExplorerController {
                 detailPanel = new DetailPanel(loadedImages.get(arte));
                 detailPanel.addUpdateActionListener(listeners[0]);
                 detailPanel.addDeleteActionListener(listeners[1]);
-                //detailPanel.addComprarActionListener(listeners[2]);
+                detailPanel.addComprarActionListener(listeners[2]);
 
                 if (arte.getIdArte() != -1) //Significa que ainda não temos toda informação que esta na tebela (Restart)
                 artista = ArteDAO.getArtistByArt(arte.getIdArte());
