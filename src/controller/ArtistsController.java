@@ -1,7 +1,7 @@
 package controller;
 
 import model.dao.ArtistaDAO;
-import model.entity.Artista;
+import model.valueobjects.Artista;
 import utility.PollyConstants;
 import view.PollyGrayFrame;
 import view.panels.ArtistFormPanel;

@@ -2,14 +2,12 @@ package controller;
 
 import model.dao.ArteDAO;
 import model.dao.CategoriaDAO;
-import model.entity.Arte;
-import model.entity.Artista;
-import model.entity.Categoria;
+import model.valueobjects.Arte;
+import model.valueobjects.Artista;
+import model.valueobjects.Categoria;
 import utility.PollyConstants;
 import view.PollyGrayFrame;
-import view.panels.ArtistFormPanel;
 import view.panels.ArtistsPanel;
-import view.panels.ExplorerPanel;
 import view.panels.PublishPanel;
 
 import javax.swing.*;
@@ -172,16 +170,25 @@ public class ArtsController {
         ActionListener buyArtListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Arte arte = PollyConstants.arteSelecionada;
+
                 orderingPanel = new OrderingPanel(PollyConstants.getFrame(), true);
-                orderingPanel.setVisible(true);
-                //JOptionPane.showConfirmDialog(null, orderingPanel, "Confirmação de Compra", JOptionPane.PLAIN_MESSAGE);
-                
+
+                orderingPanel.setUnidadesModel(new SpinnerNumberModel(
+                        1, 1, arte.getUnidades(), 1
+                ));
+
+                orderingPanel.setPrecoUnitario(arte.getPreco());
+
+
                 orderingPanel.addConfirmActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         System.out.println("DEBUG");
                     }
                 });
+
+                orderingPanel.setVisible(true);
             }
             
         };

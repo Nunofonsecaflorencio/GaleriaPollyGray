@@ -1,21 +1,15 @@
 package utility;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Date;
-import java.util.HashMap;
 
-import model.entity.Arte;
-import model.entity.Artista;
+import model.valueobjects.Arte;
 import view.PollyGrayFrame;
-import view.auxiliarpanels.FeedArtRenderer;
 
 public class PollyConstants {
 

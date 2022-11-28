@@ -1,6 +1,6 @@
 package model.dao;
 
-import model.entity.Categoria;
+import model.valueobjects.Categoria;
 import utility.PollyDatabase;
 
 import javax.swing.*;

@@ -1,4 +1,4 @@
-package model.entity;
+package model.valueobjects;
 
 public class Categoria {
     private int idCategoria;

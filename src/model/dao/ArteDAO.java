@@ -1,12 +1,12 @@
 package model.dao;
 
-import model.entity.Arte;
-import model.entity.Artista;
+import model.valueobjects.Arte;
+import model.valueobjects.Artista;
 import utility.PollyDatabase;
 
 import javax.swing.*;
 import java.sql.*;
-import model.entity.Cliente;
+import model.valueobjects.Cliente;
 
 public class ArteDAO implements DAO<Arte>{
     public static Artista getArtistByArt(int idArte) {

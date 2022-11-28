@@ -1,11 +1,10 @@
 package model.dao;
 
-import model.entity.Artista;
+import model.valueobjects.Artista;
 import utility.PollyDatabase;
 
 import javax.swing.*;
 import java.sql.*;
-import java.util.ArrayList;
 
 public class ArtistaDAO implements DAO<Artista>{
 

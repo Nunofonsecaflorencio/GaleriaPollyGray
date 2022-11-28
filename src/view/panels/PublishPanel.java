@@ -1,19 +1,14 @@
 package view.panels;
 
-import model.entity.Arte;
-import model.entity.Artista;
+import model.valueobjects.Arte;
 import utility.PollyConstants;
 import utility.SimpleButton;
 
 import javax.swing.*;
-import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import view.PollyGrayFrame;
 
 public class PublishPanel extends JPanel {
 

@@ -1,6 +1,6 @@
 package view.auxiliarpanels;
 
-import model.entity.Artista;
+import model.valueobjects.Artista;
 import utility.PollyConstants;
 
 import javax.swing.*;

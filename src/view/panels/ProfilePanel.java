@@ -1,6 +1,6 @@
 package view.panels;
 
-import model.entity.Artista;
+import model.valueobjects.Artista;
 import utility.PollyConstants;
 import view.auxiliarpanels.ImageRenderer;
 

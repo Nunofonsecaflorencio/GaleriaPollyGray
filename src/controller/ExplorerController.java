@@ -1,15 +1,13 @@
 package controller;
 
 import model.dao.ArteDAO;
-import model.entity.Arte;
-import model.entity.Artista;
+import model.valueobjects.Arte;
+import model.valueobjects.Artista;
 import utility.PollyConstants;
 import view.PollyGrayFrame;
 import view.auxiliarpanels.FeedArtRenderer;
-import view.panels.ArtistFormPanel;
 import view.panels.DetailPanel;
 import view.panels.ExplorerPanel;
-import view.panels.PublishPanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

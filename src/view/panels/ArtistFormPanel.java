@@ -1,24 +1,16 @@
 package view.panels;
 
-import model.entity.Artista;
+import model.valueobjects.Artista;
 import utility.PollyConstants;
 import utility.SimpleButton;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.text.ParseException;
-import java.util.Date;
-
-import view.PollyGrayFrame;
 
 public class ArtistFormPanel extends JPanel {
 
