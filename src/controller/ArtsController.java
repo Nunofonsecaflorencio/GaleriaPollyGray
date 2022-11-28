@@ -204,6 +204,8 @@ public class ArtsController {
                         arteDAO.comprarArte(PollyConstants.arteSelecionada, cliente, orderingPanel.getUnidades());
 
                         orderingPanel.dispose();
+
+                        // TODO: ACTUALIZAR OS DADOS DA ARTE APÓS COMPRA
                     }
                 });
 

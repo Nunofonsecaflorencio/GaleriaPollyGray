@@ -24,7 +24,8 @@ public class FeedArtRenderer extends JPanel {
         setLayout(new BorderLayout());
         add(pImage, BorderLayout.CENTER);
 
-        JLabel title = new JLabel(arte.getTitulo() + (
+        JLabel title = new JLabel(((arte.getIdArte() >= 0) ? arte.getIdArte() + ". " : "")
+                + arte.getTitulo() + (
                 (arte.getUnidades() == 0) ? "   [ESGOTADO]" : ""));
         title.setFont(PollyConstants.getLightFont(14));
 
