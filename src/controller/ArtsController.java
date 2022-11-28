@@ -173,7 +173,7 @@ public class ArtsController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 orderingPanel = new OrderingPanel();
-                JOptionPane.showConfirmDialog(null, orderingPanel, "Confirmação de Compra", JOptionPane.PLAIN_MESSAGE);
+                //JOptionPane.showConfirmDialog(null, orderingPanel, "Confirmação de Compra", JOptionPane.PLAIN_MESSAGE);
                 
                 orderingPanel.addConfirmActionListener(new ActionListener() {
                     @Override

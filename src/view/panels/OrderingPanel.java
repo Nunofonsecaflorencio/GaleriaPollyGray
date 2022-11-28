@@ -16,6 +16,7 @@ public class OrderingPanel extends JDialog {
     JButton bConfirmarCompra;
     JSpinner sUnidades;
 
+
     public OrderingPanel() {
         initComponents();
         add(getInfoPanel());
@@ -87,25 +88,36 @@ public class OrderingPanel extends JDialog {
         return lbl;
     }
 
-    public JTextField gettNome() {
-        return tNome;
+
+
+    public String getNome(){
+        return tNome.getText();
     }
 
-    public void settNome(JTextField tNome) {
-        this.tNome = tNome;
+    public void setNome(String n){
+        tNome.setText(n);
     }
 
-    public JTextField gettEndereco() {
-        return tEndereco;
+    public String getEndereco(){
+        return tEndereco.getText();
     }
 
-    public void settEndereco(JTextField tEndereco) {
-        this.tEndereco = tEndereco;
+    public void setEndereco(String n){
+        tEndereco.setText(n);
     }
 
+    public int getUnidades(){
+        return (int) sUnidades.getValue();
+    }
+
+    public void setUnidadesModel(SpinnerModel m){
+        sUnidades.setModel(m);
+    }
     
     
     public void addConfirmActionListener(ActionListener l) {
         bConfirmarCompra.addActionListener(l);
     }
+
+
 }
