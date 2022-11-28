@@ -172,7 +172,8 @@ public class ArtsController {
         ActionListener buyArtListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                orderingPanel = new OrderingPanel();
+                orderingPanel = new OrderingPanel(PollyConstants.getFrame(), true);
+                orderingPanel.setVisible(true);
                 //JOptionPane.showConfirmDialog(null, orderingPanel, "Confirmação de Compra", JOptionPane.PLAIN_MESSAGE);
                 
                 orderingPanel.addConfirmActionListener(new ActionListener() {

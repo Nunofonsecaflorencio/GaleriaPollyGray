@@ -1,6 +1,7 @@
 package view.panels;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import utility.PollyConstants;
@@ -13,17 +14,28 @@ public class OrderingPanel extends JDialog {
     
     JLabel lArte;
     JTextField tNome, tEndereco;
-    JButton bConfirmarCompra;
+    JButton bConfirmarCompra, bCancelarCompra;
     JSpinner sUnidades;
 
+    public OrderingPanel(Frame owner, boolean modal) {
+        super(owner, modal);
+        setUndecorated(true);
 
-    public OrderingPanel() {
         initComponents();
         add(getInfoPanel());
+
+        pack();
+        setLocationRelativeTo(null);
+
     }
-    
+
+
     private JPanel getInfoPanel() {
         JPanel panel = new JPanel();
+
+        panel.setBackground(PollyConstants.LIGHT);
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
         panel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -56,6 +68,8 @@ public class OrderingPanel extends JDialog {
         //Button
         c.gridx = 0; c.gridy = 8; c.gridwidth = 2;
         panel.add(bConfirmarCompra, c);
+        c.gridy = 9;
+        panel.add(bCancelarCompra, c);
         
         
         return panel;
@@ -64,21 +78,29 @@ public class OrderingPanel extends JDialog {
     private void initComponents() {
         sUnidades = new JSpinner();
         
-        lArte = createLabel("Nome da Arte");
+        lArte = createLabel("Compra");
         lArte.setFont(PollyConstants.getBoldFont(20));
         
         tNome = new JTextField();
         tEndereco = new JTextField();
         
-        bConfirmarCompra = new SimpleButton("Efectuar Compra", null, Color.GREEN, PollyConstants.HIGHLIGHT);
-        
+        bConfirmarCompra = new SimpleButton("Efectuar Compra", null, PollyConstants.LIGHT, PollyConstants.HIGHLIGHT);
+        bCancelarCompra = new SimpleButton("Cancelar Compra", null, Color.RED, PollyConstants.HIGHLIGHT);
         // Some settings
         bConfirmarCompra.setFont(PollyConstants.getBoldFont(20));
+        bCancelarCompra.setFont(PollyConstants.getBoldFont(20));
         
         for (Component c:
              new Component[]{tNome, tEndereco, sUnidades}) {
             c.setFont(PollyConstants.getLightFont(20));
         }
+
+        bCancelarCompra.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                OrderingPanel.this.dispose(); // Fechar só o Dialog e não o sistema (System.exit(0))
+            }
+        });
         
     }
     
