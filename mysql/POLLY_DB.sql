@@ -44,7 +44,7 @@ DELIMITER ;
 						-- -- --
 DROP TRIGGER IF EXISTS actualizar_artes_por_categoria_up;
 DELIMITER ;;
-CREATE TRIGGER actualizar_artes_por_categoria_up AFTER UPDATE ON Arte 
+CREATE TRIGGER actualizar_artes_por_categoria_up BEFORE UPDATE ON Arte 
 FOR EACH ROW
 
 -- Actualiza a quantidade de artes da categoria quando a arte é actualizada.
@@ -60,7 +60,10 @@ BEGIN
 	END IF;
 
 	IF (new.unidades <= 0) THEN
-		UPDATE Arte SET esgotado = TRUE WHERE Artes.idArte = new.idArte;
+		SET NEW.esgotado = TRUE;
+        SET NEW.unidades = 0;
+	ELSE 
+		SET NEW.esgotado = FALSE;
 	END IF;
 END ;;
 DELIMITER ;
@@ -192,29 +195,40 @@ DROP PROCEDURE IF EXISTS `comprar_arte`;
 DELIMITER ;;
 CREATE PROCEDURE `comprar_arte`(idArtee INT, idClientee INT, unidadess INT)
 BEGIN
-
+	DECLARE MSG_ERROR MEDIUMTEXT;
+    
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
 		ROLLBACK;
+        
+        SET MSG_ERROR = CONCAT("[RB] NÃO FOI POSSÍVEL EFECTUAR A COMPRA:  ", '\n',  MSG_ERROR);
         SIGNAL SQLSTATE '45000' SET
-		MESSAGE_TEXT = "[ROLLBACK] ERRO NA TRANSAÇÃO";
+		MESSAGE_TEXT = MSG_ERROR;
 	END;
     START TRANSACTION;
     
+    SELECT "DEBUG 1";
 	IF (EXISTS (SELECT * FROM Arte WHERE idArte = idArtee)) THEN
-		IF ((SELECT esgotado FROM Arte WHERE idArte = idArtee) = FALSE) THEN
+    SELECT "DEBUG 2";
+		IF ((SELECT esgotado FROM Arte WHERE idArte = idArtee) = 0) THEN
+        SELECT "DEBUG 3";
 			UPDATE Arte SET unidades = unidades - unidadess WHERE idArte = idArtee;
+            SELECT "DEBUG 4";
 			
 			INSERT INTO Compra(idCliente, idArte, data, unidades, precoTotal)
-			VALUES (idClientee, idArtee, DATE_FORMAT(NOW(), '%Y-%m-%d'), unidadess, unidades * (SELECT preco FROM Arte WHERE idArte = idArtee));
-
+			VALUES (idClientee, idArtee, NOW(), unidadess, unidades * (SELECT preco FROM Arte WHERE idArte = idArtee));
+		SELECT "DEBUG 5";
 		ELSE
-			SIGNAL SQLSTATE '45000' SET
-			MESSAGE_TEXT = "Arte Esgotada";
+			SET MSG_ERROR = "Arte Esgotada";
+            
+            SIGNAL SQLSTATE '45000' SET
+			MESSAGE_TEXT = MSG_ERROR;
 		END IF;
 	ELSE
+        SET MSG_ERROR = "A Arte Não Existe";
+        
         SIGNAL SQLSTATE '45000' SET
-		MESSAGE_TEXT = "A Arte Não Existe";
+		MESSAGE_TEXT = MSG_ERROR;
 	END IF;
     
     COMMIT;
