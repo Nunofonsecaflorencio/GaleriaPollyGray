@@ -16,6 +16,8 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import static javax.swing.JOptionPane.showConfirmDialog;
+import view.panels.OrderingPanel;
 
 public class ArtsController {
 
@@ -23,6 +25,7 @@ public class ArtsController {
     DefaultComboBoxModel<Categoria> categoriaModel;
     PublishPanel publishPanel;
     JFileChooser fileChooser;
+    OrderingPanel orderingPanel;
     ExplorerController explorerController;
 
     public ArtsController() {
@@ -165,13 +168,28 @@ public class ArtsController {
                 PollyConstants.getFrame().goFromTo(publishPanel, PollyConstants.EXPLORER_CARD);
             }
         };
+        
+        ActionListener buyArtListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                orderingPanel = new OrderingPanel();
+                JOptionPane.showConfirmDialog(null, orderingPanel, "Confirmação de Compra", JOptionPane.PLAIN_MESSAGE);
+                
+                orderingPanel.addConfirmActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        System.out.println("DEBUG");
+                    }
+                });
+            }
+            
+        };
 
-
-
-
+        
         ActionListener[] listeners = new ActionListener[]{
                 updateArtListener,
-                deleteArtListener
+                deleteArtListener,
+                buyArtListener
         };
 
         explorerController = new ExplorerController(artesModel, listeners);
