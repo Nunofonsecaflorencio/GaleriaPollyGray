@@ -65,6 +65,7 @@ public class ExplorerController {
                 detailPanel.addDeleteActionListener(listeners[1]);
                 detailPanel.addComprarActionListener(listeners[2]);
 
+
                 if (arte.getIdArte() != -1) //Significa que ainda não temos toda informação que esta na tebela (Restart)
                 artista = ArteDAO.getArtistByArt(arte.getIdArte());
 
@@ -74,6 +75,8 @@ public class ExplorerController {
                 detailPanel.setPreco(arte.getPreco());
                 detailPanel.setUnidades(arte.getUnidades());
                 detailPanel.setDescricao(arte.getDescricao());
+
+                detailPanel.setEnableBComprar(arte.getUnidades() != 0);
 
                 PollyConstants.getFrame().getCardsPanel().add(detailPanel, PollyConstants.DETAIL_CARD);
                 PollyConstants.getFrame().go(PollyConstants.DETAIL_CARD);

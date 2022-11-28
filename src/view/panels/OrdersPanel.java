@@ -32,10 +32,19 @@ public class OrdersPanel extends JPanel {
         tSearch.setFont(PollyConstants.getLightFont(18));
 
 
-        tableOrders = new JTable();
+        tableOrders = new JTable(){
+            private static final long serialVersionUID = 1L;
+
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            };
+        };
         tableOrders.setBackground(PollyConstants.LIGHT);
         tableOrders.setSelectionBackground(PollyConstants.HIGHLIGHT);
         tableOrders.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        tableOrders.setFont(PollyConstants.getLightFont(18));
+
 
 
         bPrintReport = new SimpleButton("Imprimir Relatório", null, PollyConstants.LIGHT, PollyConstants.HIGHLIGHT);

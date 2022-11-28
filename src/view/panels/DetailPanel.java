@@ -65,6 +65,7 @@ public class DetailPanel extends JPanel {
         //gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.fill = GridBagConstraints.NONE;
         gbc.weightx = .1;
+        gbc.weighty = .2;
         gbc.gridy = 2; panel.add(PollyConstants.createLabel("Artista: ", PollyConstants.getBoldFont(15)), gbc);
         gbc.gridy = 3; panel.add(PollyConstants.createLabel("Publicado em: ", PollyConstants.getBoldFont(15)), gbc);
         gbc.gridx = 1;
@@ -84,15 +85,16 @@ public class DetailPanel extends JPanel {
 
     private JPanel getButtonsPanel() {
         JPanel panel = new JPanel(new GridLayout(1, 8, 10, 0));
-        panel.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+        //panel.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
         panel.setBackground(PollyConstants.LIGHT);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 
-        panel.add(bDeletar);
+        panel.add(bComprar);
         panel.add(bEditar);
+        panel.add(bDeletar);
 
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 5; i++) {
             panel.add(new JLabel());
         }
 
@@ -106,14 +108,15 @@ public class DetailPanel extends JPanel {
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weighty = .1;
+        gbc.weighty = 1;
         gbc.weightx = 1;
         gbc.gridx = 0;
 
         gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.gridy = 0; panel.add(PollyConstants.createLabel("Compra", PollyConstants.getBoldFont(30)), gbc);
+        gbc.gridy = 0; panel.add(PollyConstants.createLabel("Compra", PollyConstants.getBoldFont(25)), gbc);
         gbc.weightx = .1;
         gbc.gridwidth = 1;
+        gbc.weighty = .2;
         gbc.gridy = 1; panel.add(PollyConstants.createLabel("Preço(MT): ", PollyConstants.getBoldFont(15)), gbc);
         gbc.gridy = 2; panel.add(PollyConstants.createLabel("Unidades: ", PollyConstants.getBoldFont(15)), gbc);
 
@@ -121,13 +124,6 @@ public class DetailPanel extends JPanel {
         gbc.gridy = 1; panel.add(lPreco, gbc);
         gbc.gridy = 2; panel.add(lUnidades, gbc);
 
-        gbc.weightx = 1;
-        gbc.gridx = 2; gbc.gridy = 1;
-        gbc.gridheight = GridBagConstraints.REMAINDER;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        gbc.anchor = GridBagConstraints.LINE_END;
-        gbc.insets = new Insets(10, 0, 10, 0);
-        panel.add(bComprar, gbc);
 
         return panel;
     }
@@ -141,7 +137,7 @@ public class DetailPanel extends JPanel {
         JScrollPane sP = new JScrollPane(aDescricao);
         sP.setBackground(PollyConstants.LIGHT);
         sP.setBorder(BorderFactory.createEmptyBorder(20, 0, 0 , 0));
-        panel.add(PollyConstants.createLabel("Descrição da arte", PollyConstants.getBoldFont(30)), BorderLayout.NORTH);
+        panel.add(PollyConstants.createLabel("Descrição da arte", PollyConstants.getBoldFont(25)), BorderLayout.NORTH);
         panel.add(sP, BorderLayout.CENTER);
         return panel;
     }
@@ -151,8 +147,11 @@ public class DetailPanel extends JPanel {
 
         bEditar = new SimpleButton(null, PollyConstants.icon("edit_art.png"), Color.ORANGE, PollyConstants.HIGHLIGHT);
         bDeletar = new SimpleButton(null, PollyConstants.icon("delete_art.png"), Color.RED, PollyConstants.HIGHLIGHT);
-        bComprar = new SimpleButton("Comprar", null, Color.GREEN, PollyConstants.HIGHLIGHT);
-        bComprar.setFont(PollyConstants.getBoldFont(22));
+        bComprar = new SimpleButton(null, PollyConstants.icon("add_shopping_cart.png"), Color.GREEN, PollyConstants.HIGHLIGHT);
+
+        bComprar.setToolTipText("Comprar Esta Arte");
+        bDeletar.setToolTipText("Apagar Esta Arte");
+        bEditar.setToolTipText("Editar Esta Arte");
 
         aTitulo = new JTextArea();
         aDescricao = new JTextArea();
@@ -180,6 +179,7 @@ public class DetailPanel extends JPanel {
 
 
 
+    public void setEnableBComprar(boolean b){ bComprar.setEnabled(b);}
 
     public void setTitulo(String titulo) {
         aTitulo.setText(titulo);
