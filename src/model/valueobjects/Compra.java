@@ -2,6 +2,7 @@ package model.valueobjects;
 
 public class Compra {
     private int idCliente;
+    private String nomeCliente;
     private  int idArte;
     private String date;
     private int unidades;
@@ -9,6 +10,14 @@ public class Compra {
 
     public Compra(int idCliente, int idArte, String date, int unidades, float precoTotal) {
         this.idCliente = idCliente;
+        this.idArte = idArte;
+        this.date = date;
+        this.unidades = unidades;
+        this.precoTotal = precoTotal;
+    }
+
+    public Compra(String nomeCliente, int idArte, String date, int unidades, float precoTotal) {
+        this.nomeCliente = nomeCliente;
         this.idArte = idArte;
         this.date = date;
         this.unidades = unidades;
