@@ -6,6 +6,7 @@ import utility.PollyDatabase;
 
 import javax.swing.*;
 import java.sql.*;
+import model.entity.Cliente;
 
 public class ArteDAO implements DAO<Arte>{
     public static Artista getArtistByArt(int idArte) {
@@ -145,6 +146,27 @@ public class ArteDAO implements DAO<Arte>{
         } catch (SQLException e) {
             e.printStackTrace();
         }catch (NullPointerException e) {
+            System.out.println("[EXCEPTION] NO DATA BASE CONNECTION");
+        }
+    }
+    
+    public void comprarArte(Arte arte, Cliente cliente) {
+        String query = "CALL comprar_arte(?, ?, ?)";
+        
+        try {
+            Connection conn = PollyDatabase.getConnection();
+            CallableStatement stmt = conn.prepareCall(query);
+            
+            stmt.setInt(1, arte.getIdArte());
+            stmt.setInt(2, cliente.getIdCliente());
+            stmt.setInt(3, arte.getUnidades());
+            
+            stmt.execute();
+            stmt.close();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
             System.out.println("[EXCEPTION] NO DATA BASE CONNECTION");
         }
     }
