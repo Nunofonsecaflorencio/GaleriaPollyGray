@@ -169,6 +169,10 @@ public class OrderingPanel extends JDialog {
         );
     }
 
+    public String getContacto() {
+        return "840000000";
+    }
+
     public float getPrecoTotal(){
         return Float.parseFloat(lPrecoTotal.getText().split(" ")[0]);
     }
@@ -181,6 +185,7 @@ public class OrderingPanel extends JDialog {
     public void addConfirmActionListener(ActionListener l) {
         bConfirmarCompra.addActionListener(l);
     }
+
 
 
 }

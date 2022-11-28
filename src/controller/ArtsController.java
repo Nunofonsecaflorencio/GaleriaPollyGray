@@ -2,9 +2,11 @@ package controller;
 
 import model.dao.ArteDAO;
 import model.dao.CategoriaDAO;
+import model.dao.ClienteDAO;
 import model.valueobjects.Arte;
 import model.valueobjects.Artista;
 import model.valueobjects.Categoria;
+import model.valueobjects.Cliente;
 import utility.PollyConstants;
 import view.PollyGrayFrame;
 import view.panels.ArtistsPanel;
@@ -184,7 +186,24 @@ public class ArtsController {
                 orderingPanel.addConfirmActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        System.out.println("DEBUG");
+
+                        Cliente cliente = ClienteDAO.getClienteByName(orderingPanel.getNome());
+                        if (cliente == null){
+
+                            new ClienteDAO().create(new Cliente(
+                                    -1,
+                                    orderingPanel.getNome(),
+                                    orderingPanel.getEndereco(),
+                                    orderingPanel.getContacto()
+                            ));
+
+                            cliente = ClienteDAO.getClienteByName(orderingPanel.getNome());
+                        }
+
+
+                        arteDAO.comprarArte(PollyConstants.arteSelecionada, cliente, orderingPanel.getUnidades());
+
+                        orderingPanel.dispose();
                     }
                 });
 
