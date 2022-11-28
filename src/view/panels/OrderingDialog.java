@@ -2,9 +2,11 @@ package view.panels;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.text.ParseException;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.text.MaskFormatter;
 
 import utility.PollyConstants;
 import utility.SimpleButton;
@@ -12,14 +14,17 @@ import utility.SimpleButton;
 /**
  * @author Belars Wonder
  */
-public class OrderingPanel extends JDialog {
+public class OrderingDialog extends JDialog {
     
     JLabel lArte, lPrecoUnitario, lPrecoTotal;
     JTextField tNome, tEndereco;
+    JFormattedTextField tContacto;
     JButton bConfirmarCompra, bCancelarCompra;
     JSpinner sUnidades;
+    
+    MaskFormatter contactFormat = null;
 
-    public OrderingPanel(Frame owner, boolean modal) {
+    public OrderingDialog(Frame owner, boolean modal) {
         super(owner, modal);
         setUndecorated(true);
 
@@ -54,29 +59,32 @@ public class OrderingPanel extends JDialog {
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.gridy = 2; panel.add(tNome, c);
         c.gridy = 4; panel.add(tEndereco, c);
+        c.gridy = 6; panel.add(tContacto, c);
+        
         c.gridy = 1; panel.add(createLabel("Nome do Cliente:"), c);
         c.gridy = 3; panel.add(createLabel("Endereço do Cliente:"), c);
+        c.gridy = 5; panel.add(createLabel("Contacto do Cliente:"), c);
 
         c.gridwidth =  1;
         c.weightx = .1;
         //Down
-        c.gridy = 5; panel.add(createLabel("Unidades:"), c);
-        c.gridy = 6; panel.add(createLabel("Preço Unitário"), c);
-        c.gridy = 7; panel.add(createLabel("Preço Total"), c);
+        c.gridy = 7; panel.add(createLabel("Unidades:"), c);
+        c.gridy = 8; panel.add(createLabel("Preço Unitário"), c);
+        c.gridy = 9; panel.add(createLabel("Preço Total"), c);
 
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 1;
         c.gridx = 1;
-        c.gridy = 5; panel.add(sUnidades, c);
-        c.gridy = 6; panel.add(lPrecoUnitario, c);
-        c.gridy = 7; panel.add(lPrecoTotal, c);
+        c.gridy = 7; panel.add(sUnidades, c);
+        c.gridy = 8; panel.add(lPrecoUnitario, c);
+        c.gridy = 9; panel.add(lPrecoTotal, c);
         
         
         //Button
-        c.gridx = 0; c.gridy = 8; c.gridwidth = GridBagConstraints.REMAINDER;
+        c.gridx = 0; c.gridy = 10; c.gridwidth = GridBagConstraints.REMAINDER;
         panel.add(bConfirmarCompra, c);
-        c.gridy = 9;
+        c.gridy = 11;
         panel.add(bCancelarCompra, c);
 
         return panel;
@@ -95,23 +103,36 @@ public class OrderingPanel extends JDialog {
         lPrecoTotal.setHorizontalAlignment(SwingConstants.RIGHT);
 
         tNome = new JTextField();
-        tEndereco = new JTextField();
+        tEndereco = new JTextField();  
+        
+        try {
+            contactFormat = new MaskFormatter("##-###-####");
+            contactFormat.setPlaceholderCharacter('-');
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        tContacto = new JFormattedTextField(contactFormat);
+        tContacto.setHorizontalAlignment(SwingConstants.CENTER);
+        
         
         bConfirmarCompra = new SimpleButton("Efectuar Compra", null, PollyConstants.LIGHT, PollyConstants.HIGHLIGHT);
         bCancelarCompra = new SimpleButton("Cancelar Compra", null, Color.RED, PollyConstants.HIGHLIGHT);
+        
         // Some settings
         bConfirmarCompra.setFont(PollyConstants.getBoldFont(20));
         bCancelarCompra.setFont(PollyConstants.getBoldFont(20));
         
         for (Component c:
-             new Component[]{tNome, tEndereco, sUnidades}) {
+             new Component[]{tNome, tEndereco, tContacto, sUnidades}) {
             c.setFont(PollyConstants.getLightFont(20));
         }
 
         bCancelarCompra.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                OrderingPanel.this.dispose(); // Fechar só o Dialog e não o sistema (System.exit(0))
+                OrderingDialog.this.dispose(); // Fechar só o Dialog e não o sistema (System.exit(0))
             }
         });
 
