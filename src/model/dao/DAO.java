@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public interface DAO<T>{
     void create(T obj);
-    ListModel<T> read();
+    Object read();
     void update(T obj);
     void delete(T obj);
 }

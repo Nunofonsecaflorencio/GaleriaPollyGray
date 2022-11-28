@@ -16,10 +16,12 @@ public class Main {
     PollyGrayFrame janela;
     ArtistsController artistsController;
     ArtsController artsController;
+    OrdersController ordersController;
     public Main() {
         janela = new PollyGrayFrame();
         janela.setVisible(true);
         artistsController = new ArtistsController();
+        ordersController = new OrdersController();
         artsController = new ArtsController();
     }
 

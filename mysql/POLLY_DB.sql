@@ -25,8 +25,9 @@ CREATE TABLE `arte` (
 );
 
 	-- Triggers Da Tabela Arte
-    
 
+						-- -- --
+DROP TRIGGER IF EXISTS unidades_arte_esgotadas_up;
 DELIMITER ;;
 CREATE TRIGGER unidades_arte_esgotadas_up AFTER UPDATE ON Arte 
 FOR EACH ROW
@@ -35,11 +36,13 @@ FOR EACH ROW
 
 BEGIN
 	IF (new.unidades <= 0) THEN
-		UPDATE Artes SET esgotado = TRUE;
+		UPDATE Arte SET esgotado = TRUE;
 	END IF;
 END ;;
 DELIMITER ;
 
+						-- -- --
+DROP TRIGGER IF EXISTS actualizar_artes_por_categoria_up;
 DELIMITER ;;
 CREATE TRIGGER actualizar_artes_por_categoria_up AFTER UPDATE ON Arte 
 FOR EACH ROW
@@ -56,12 +59,14 @@ BEGIN
 			WHERE Arte_Categoria.idArte = new.idArte);
 	END IF;
 
-	IF (new.unidades = 0) THEN
-		UPDATE Artes SET esgotado = TRUE WHERE Artes.idArte = new.idArte;
+	IF (new.unidades <= 0) THEN
+		UPDATE Arte SET esgotado = TRUE WHERE Artes.idArte = new.idArte;
 	END IF;
 END ;;
 DELIMITER ;
 
+						-- -- --
+DROP TRIGGER IF EXISTS actualizar_artes_por_categoria_del;
 DELIMITER ;;
 CREATE TRIGGER actualizar_artes_por_categoria_del BEFORE DELETE ON Arte 
 FOR EACH ROW
@@ -139,12 +144,12 @@ CREATE TABLE `arte_categoria` (
 
 DROP TABLE IF EXISTS `compra`;
 CREATE TABLE `compra` (
-  `idCliente` int(11) NOT NULL AUTO_INCREMENT,
+  `idCompra` int(11) PRIMARY KEY AUTO_INCREMENT,
+  `idCliente` int(11) NOT NULL,
   `idArte` int(11) NOT NULL,
   `data` date NOT NULL,
   `unidades` int(11) NOT NULL,
   `precoTotal` float NOT NULL,
-  PRIMARY KEY (`idCliente`,`idArte`),
   KEY `fk_Cliente_has_Arte_Arte1` (`idArte`),
   CONSTRAINT `fk_Cliente_has_Arte_Arte1` FOREIGN KEY (`idArte`) REFERENCES `arte` (`idArte`),
   CONSTRAINT `fk_Cliente_has_Arte_Cliente1` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`idCliente`) ON DELETE CASCADE
@@ -191,15 +196,17 @@ BEGIN
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
 		ROLLBACK;
+        SIGNAL SQLSTATE '45000' SET
+		MESSAGE_TEXT = "[ROLLBACK] ERRO NA TRANSAÇÃO";
 	END;
     START TRANSACTION;
     
-	IF (EXISTS (SELECT * FROM Artes WHERE idArte = idArtee)) THEN
-		IF ((SELECT esgotado FROM Artes WHERE idArte = idArtee) = FALSE) THEN
-			UPDATE Artes SET unidades = unidades - 1;
+	IF (EXISTS (SELECT * FROM Arte WHERE idArte = idArtee)) THEN
+		IF ((SELECT esgotado FROM Arte WHERE idArte = idArtee) = FALSE) THEN
+			UPDATE Arte SET unidades = unidades - unidadess WHERE idArte = idArtee;
 			
 			INSERT INTO Compra(idCliente, idArte, data, unidades, precoTotal)
-			VALUES (idClientee, idArtee, NOW(), unidadess, unidades * (SELECT preco FROM Artes WHERE idArte = idArtee));
+			VALUES (idClientee, idArtee, DATE_FORMAT(NOW(), '%Y-%m-%d'), unidadess, unidades * (SELECT preco FROM Arte WHERE idArte = idArtee));
 
 		ELSE
 			SIGNAL SQLSTATE '45000' SET

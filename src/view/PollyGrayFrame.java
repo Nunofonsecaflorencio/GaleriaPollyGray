@@ -9,6 +9,7 @@ package view;
  *
  * @author 22K
  */
+import controller.OrdersController;
 import utility.PollyConstants;
 import utility.PollyDatabase;
 import utility.SimpleButton;
@@ -155,5 +156,9 @@ public class PollyGrayFrame extends JFrame {
 
     public ExplorerPanel getExplorerPanel() {
         return pExplorer;
+    }
+
+    public OrdersPanel getOrdersPanel() {
+        return pOrders;
     }
 }

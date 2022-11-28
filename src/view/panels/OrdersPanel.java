@@ -2,12 +2,10 @@ package view.panels;
 
 import utility.PollyConstants;
 import utility.SimpleButton;
-import view.auxiliarpanels.ArtistRender;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -35,6 +33,7 @@ public class OrdersPanel extends JPanel {
 
 
         tableOrders = new JTable();
+        tableOrders.setBackground(PollyConstants.LIGHT);
         tableOrders.setSelectionBackground(PollyConstants.HIGHLIGHT);
         tableOrders.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -79,6 +78,7 @@ public class OrdersPanel extends JPanel {
 
     private JScrollPane getTablePanel() {
         JScrollPane panel = new JScrollPane(tableOrders);
+        panel.getViewport().setBackground(PollyConstants.LIGHT);
         panel.setBackground(PollyConstants.LIGHT);
         panel.setBorder(null);
 
