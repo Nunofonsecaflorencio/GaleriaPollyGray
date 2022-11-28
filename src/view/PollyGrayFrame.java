@@ -55,7 +55,6 @@ public class PollyGrayFrame extends JFrame {
         pGlobal.add(getMainPanel(), BorderLayout.CENTER);
 
         add(pGlobal);
-        setUndecorated(true);
         pack();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
