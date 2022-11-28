@@ -25,6 +25,7 @@ public class PollyGrayFrame extends JFrame {
     JPanel cardsPanel;
     ExplorerPanel pExplorer;
     ArtistsPanel pArtists;
+    OrdersPanel pOrders;
 
     public PollyGrayFrame() {
         PollyConstants.setFrame(this);
@@ -66,6 +67,7 @@ public class PollyGrayFrame extends JFrame {
         cards = new CardLayout();
         pExplorer = new ExplorerPanel();
         pArtists = new ArtistsPanel();
+        pOrders = new OrdersPanel();
     }
 
     private JPanel getMainPanel() {
@@ -73,6 +75,8 @@ public class PollyGrayFrame extends JFrame {
         cardsPanel.setLayout(cards);
         cardsPanel.add(pExplorer, PollyConstants.EXPLORER_CARD);
         cardsPanel.add(pArtists, PollyConstants.ARTISTS_CARD);
+        cardsPanel.add(pOrders, PollyConstants.ORDERS_CARD);
+
         return cardsPanel;
     }
 
@@ -83,6 +87,7 @@ public class PollyGrayFrame extends JFrame {
 
         panel.add(createMenuButton("explore.png", "Explorar"));
         panel.add(createMenuButton("createArtist.png", "Artistas"));
+        panel.add(createMenuButton("shopping_cart.png", "Compras"));
 
         JLabel lbl = new JLabel();
         lbl.setPreferredSize(new Dimension(200, 0));

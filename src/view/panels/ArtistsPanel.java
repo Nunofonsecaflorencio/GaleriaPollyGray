@@ -27,8 +27,6 @@ public class ArtistsPanel extends JPanel {
         add(getListPanel(), BorderLayout.CENTER);
         add(getButtonsPanel(), BorderLayout.SOUTH);
 
-        PollyGrayFrame frame = PollyConstants.getFrame();
-
     }
     public void addCreateActionListener(ActionListener l){
         bCreate.addActionListener(l);

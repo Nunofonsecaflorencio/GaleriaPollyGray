@@ -37,7 +37,8 @@ public class PollyConstants {
     public static String PUBLISH_CARD = "Publicar";
     public static String ARTISTFORM_CARD = "Form";
     public static String PROFILE_CARD = "Perfil";
-    public static final String DETAIL_CARD = "Detalhe";
+    public static String DETAIL_CARD = "Detalhe";
+    public static String ORDERS_CARD = "Compras";
 
 
     public static Arte arteSelecionada;
