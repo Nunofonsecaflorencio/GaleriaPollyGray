@@ -23,8 +23,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ExplorerController {
     JPanel[] feedPanels;
 
-    Map<Arte, BufferedImage> loadedImages;
-    Queue<Arte> wainting;
     DefaultListModel<Arte> arts;
 
     ExplorerPanel explorerPanel;
@@ -45,9 +43,6 @@ public class ExplorerController {
         explorerPanel = frame.getExplorerPanel();
         feedPanels = explorerPanel.getFeedPanels();
 
-        loadedImages = new ConcurrentHashMap<>();
-        wainting = new LinkedList<>();
-
         /*
             Data
          */
@@ -61,7 +56,7 @@ public class ExplorerController {
             public void mouseClicked(MouseEvent e) {
                 Arte arte = ((FeedArtRenderer)e.getSource()).getArte();
                 PollyConstants.arteSelecionada = arte;
-                detailPanel = new DetailPanel(loadedImages.get(arte));
+                detailPanel = new DetailPanel(PollyImageLoader.loadedImages.get(PollyConstants.ARTS_IMAGE_DATABASE + arte.getImagem()));
                 detailPanel.addUpdateActionListener(listeners[0]);
                 detailPanel.addDeleteActionListener(listeners[1]);
                 detailPanel.addComprarActionListener(listeners[2]);
