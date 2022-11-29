@@ -276,8 +276,10 @@ public class ArtsController {
             validPrice = false;
             ERROS += "O PREÇO NÃO DEVE SER MENOR QUE 100. \n";
         }
-
-        JOptionPane.showMessageDialog(PollyConstants.getFrame(), ERROS);
+        
+        if (!(validTitle && validPrice && validImage))
+            JOptionPane.showMessageDialog(PollyConstants.getFrame(), ERROS);
+        
         return validTitle && validPrice && validImage;
     }
 

@@ -229,7 +229,7 @@ public class ArtistFormPanel extends JPanel {
     }
 
     public String getDataNascimento(){
-        return tDate.getValue().toString();
+        return (tDate.getValue() == null) ? "" : tDate.getValue().toString();
     }
 
     public String getImagem(){

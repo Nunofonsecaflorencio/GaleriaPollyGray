@@ -9,6 +9,8 @@ import view.panels.ArtistFormPanel;
 import view.panels.ArtistsPanel;
 import view.panels.ProfilePanel;
 
+import java.util.*;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -17,7 +19,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class ArtistsController{
+public class ArtistsController {
 
     ArtistFormPanel formPanel;
     Artista artistaSelecionado;
@@ -106,8 +108,9 @@ public class ArtistsController{
 
                 artista.setNome(formPanel.getNome());
                 artista.setDataNascimento(PollyConstants.formatDate(formPanel.getDataNascimento()));
-                if (formPanel.imageChanged())
+                if (formPanel.imageChanged()) {
                     artista.setImagem(formPanel.getImagem());
+                }
                 artista.setContactos(formPanel.getContactos());
                 artista.setBiografia(formPanel.getBiografia());
 
@@ -153,7 +156,7 @@ public class ArtistsController{
                 Artista artista = (Artista) artistsPanel.getlArtists().getSelectedValue();
                 int response = JOptionPane.showConfirmDialog(artistsPanel,
                         "Remover " + artista.getNome() + "?");
-                if (response == JOptionPane.YES_OPTION){
+                if (response == JOptionPane.YES_OPTION) {
                     dao.delete(artista);
                     removeArtist(artista);
                     PollyConstants.deleteFile(new File(PollyConstants.ARTISTS_IMAGE_DATABASE + artista.getImagem()));
@@ -164,34 +167,31 @@ public class ArtistsController{
         /*
             Others
          */
-
         artistsPanel.addArtistListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                if (e.getValueIsAdjusting() || artistsPanel.getlArtists().isSelectionEmpty()){
+                if (e.getValueIsAdjusting() || artistsPanel.getlArtists().isSelectionEmpty()) {
                     artistsPanel.setButtonPublishEnabled(false);
                     artistsPanel.setButtonProfileEnabled(false);
                     artistsPanel.setButtonUpdateEnabled(false);
                     artistsPanel.setButtonDeleteEnabled(false);
-                }else{
+                } else {
                     artistsPanel.setButtonPublishEnabled(true);
                     artistsPanel.setButtonProfileEnabled(true);
                     artistsPanel.setButtonUpdateEnabled(true);
                     artistsPanel.setButtonDeleteEnabled(true);
-
 
                     artistaSelecionado = (Artista) artistsPanel.getlArtists().getSelectedValue();
                 }
             }
         });
 
-
         artistsPanel.addProfileActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String path = PollyConstants.ARTISTS_IMAGE_DATABASE + artistaSelecionado.getImagem();
                 BufferedImage imagem = PollyImageLoader.loadedImages.get(path);
-                if (imagem == null){
+                if (imagem == null) {
 
                     PollyImageLoader.load(path, new ActionListener() {
                         @Override
@@ -219,7 +219,7 @@ public class ArtistsController{
                 String text = artistsPanel.getFilterText().toLowerCase();
                 DefaultListModel<Artista> filteredArtists = new DefaultListModel<>();
                 for (int i = 0; i < artistModel.getSize(); i++) {
-                    if (artistModel.getElementAt(i).getNome().toLowerCase().contains(text)){
+                    if (artistModel.getElementAt(i).getNome().toLowerCase().contains(text)) {
                         filteredArtists.addElement(artistModel.getElementAt(i));
                     }
                 }
@@ -227,21 +227,46 @@ public class ArtistsController{
             }
         });
 
-
     }
-
 
     private void removeArtist(Artista artista) {
         artistModel.removeElement(artista);
-    }
-
-    private boolean isValidArtist(Artista artista) {
-        // TODO: Validate Artist
-        return true;
     }
 
     private void addArtist(Artista artist) {
         artistModel.insertElementAt(artist, 0);
     }
 
+    private boolean isValidArtist(Artista artista) {
+        boolean validName = true, validImage = true, validBirthday = true;
+        String ERROS = "";
+
+        if (artista.getNome().isEmpty()) {
+            validName = false;
+            ERROS += "NOME DO ARTISTA NÃO PODE SER VAZIO. \n";
+        } else if (artista.getNome().length() > 45) {
+            validName = false;
+            ERROS += "NOME DO ARTISTA NÃO PODE TER MAIS DE 45 CARACTERES. \n";
+        }
+        
+        if (artista.getImagem().isEmpty()) {
+            validImage = false;
+            ERROS += "ADICIONE UMA IMAGEM. \n";
+        }
+        
+        String[] tokens = artista.getDataNascimento().split("-");
+        if (artista.getDataNascimento().isEmpty()) {
+            validBirthday = false;
+            ERROS += "ADICIONE A DATA DE NASCIMENTO. \n";
+        } else if (Integer.parseInt(tokens[0]) > 2022 || (Integer.parseInt(tokens[1]) < 0 || Integer.parseInt(tokens[1]) > 12) ||
+                (Integer.parseInt(tokens[2]) < 0 || Integer.parseInt(tokens[2]) > 31)) {
+            validBirthday = false;
+            ERROS += "DATA INVÁLIDA \n";
+        }
+
+        if (!(validName && validImage && validBirthday))
+            JOptionPane.showMessageDialog(PollyConstants.getFrame(), ERROS);
+        
+        return validName && validImage && validBirthday;
+    }
 }

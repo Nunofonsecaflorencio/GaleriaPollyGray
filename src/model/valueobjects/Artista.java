@@ -66,7 +66,7 @@ public class Artista {
     }
 
     public String getImagem() {
-        return imagem;
+        return (imagem == null) ? "" : imagem;
     }
 
     public void setImagem(String imagem) {
