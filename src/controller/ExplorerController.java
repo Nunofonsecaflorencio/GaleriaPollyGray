@@ -4,6 +4,7 @@ import model.dao.ArteDAO;
 import model.valueobjects.Arte;
 import model.valueobjects.Artista;
 import utility.PollyConstants;
+import utility.PollyImageLoader;
 import view.PollyGrayFrame;
 import view.auxiliarpanels.FeedArtRenderer;
 import view.panels.DetailPanel;
@@ -85,26 +86,26 @@ public class ExplorerController {
         };
 
 
+        // IDEAL
         for (int i = 0; i < arts.getSize(); i++) {
-            addArtToWait(arts.elementAt(i));
+            scheduleLoading(artesModel.get(i));
         }
-
-        processWaitingImages();
     }
 
-    public void addArtToWait(Arte art){
-        wainting.add(art);
-    }
-    public void processWaitingImages(){
-        while (!wainting.isEmpty()){
-            Arte art = wainting.poll();
-            Worker worker = new Worker(art);
-            worker.execute();
-        }
+    public void scheduleLoading(Arte art){
+        PollyImageLoader.load(PollyConstants.ARTS_IMAGE_DATABASE + art.getImagem(),
+                new ActionListener(){
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        showArt(art);
+                    }
+                });
     }
 
     public void showArt(Arte art){
-        addComponentToFeed(new FeedArtRenderer(art, loadedImages.get(art), clickToArtListener));
+        addComponentToFeed(new FeedArtRenderer(art,
+                PollyImageLoader.loadedImages.get(PollyConstants.ARTS_IMAGE_DATABASE + art.getImagem()),
+                clickToArtListener));
     }
 
     public void addComponentToFeed(Component c){
@@ -112,31 +113,5 @@ public class ExplorerController {
         feedPanels[index].add(c);
         feedPanels[index].revalidate();
         counter++;
-    }
-
-
-    public BufferedImage loadImage(Arte art) throws IOException {
-        BufferedImage image = ImageIO.read(new File(PollyConstants.ARTS_IMAGE_DATABASE + art.getImagem()));
-        loadedImages.put(art, image);
-        return image;
-    }
-
-    class Worker extends SwingWorker{
-        Arte art;
-
-        public Worker(Arte art) {
-            this.art = art;
-        }
-
-        @Override
-        protected Object doInBackground() throws Exception {
-            loadImage(art);
-            return null;
-        }
-
-        @Override
-        protected void done() {
-            showArt(art);
-        }
     }
 }

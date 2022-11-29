@@ -75,8 +75,7 @@ public class ArtsController {
                     arte.setIdArte(-1);
 
                     artesModel.insertElementAt(arte, 0);
-                    explorerController.addArtToWait(arte);
-                    explorerController.processWaitingImages();
+                    explorerController.scheduleLoading(arte);
 
 
                     PollyConstants.getFrame().goFromTo(publishPanel, PollyConstants.ARTISTS_CARD);
@@ -131,8 +130,7 @@ public class ArtsController {
                         PollyConstants.copyFile(fileChooser.getSelectedFile(),
                                 new File(PollyConstants.ARTS_IMAGE_DATABASE + arte.getImagem()));
 
-                        explorerController.addArtToWait(arte);
-                        explorerController.processWaitingImages();
+                        explorerController.scheduleLoading(arte);
                     }
 
                     arteDAO.update(arte);

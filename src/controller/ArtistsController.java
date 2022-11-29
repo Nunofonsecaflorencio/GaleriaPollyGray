@@ -3,6 +3,7 @@ package controller;
 import model.dao.ArtistaDAO;
 import model.valueobjects.Artista;
 import utility.PollyConstants;
+import utility.PollyImageLoader;
 import view.PollyGrayFrame;
 import view.panels.ArtistFormPanel;
 import view.panels.ArtistsPanel;
@@ -29,9 +30,6 @@ public class ArtistsController{
 
     DefaultListModel<Artista> artistModel;
 
-    Map<Artista, BufferedImage> loadedImages;
-    Queue<Artista> wainting;
-
     public ArtistsController() {
         /*
             Containers
@@ -46,11 +44,16 @@ public class ArtistsController{
         artistModel = dao.read();
         artistsPanel.setArtistsListModel(artistModel);
 
-        /*
-            Images
-         */
-        loadedImages = new ConcurrentHashMap<>();
-        wainting = new LinkedList<>();
+        for (int i = 0; i < artistModel.size(); i++) {
+            String path = PollyConstants.ARTISTS_IMAGE_DATABASE + artistModel.get(i).getImagem();
+            PollyImageLoader.load(path, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                }
+            });
+        }
+
         /*
             Create
          */
@@ -73,7 +76,13 @@ public class ArtistsController{
                     PollyConstants.copyFile(formPanel.getFileImagem(),
                             new File(PollyConstants.ARTISTS_IMAGE_DATABASE + artista.getImagem()));
 
+                    String path = PollyConstants.ARTISTS_IMAGE_DATABASE + artista.getImagem();
+                    PollyImageLoader.load(path, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
 
+                        }
+                    });
                     PollyConstants.getFrame().goFromTo(formPanel, PollyConstants.ARTISTS_CARD);
 
                 }
@@ -114,6 +123,14 @@ public class ArtistsController{
                     if (formPanel.imageChanged()) {
                         PollyConstants.copyFile(formPanel.getFileImagem(),
                                 new File(PollyConstants.ARTISTS_IMAGE_DATABASE + artista.getImagem()));
+
+                        String path = PollyConstants.ARTISTS_IMAGE_DATABASE + artista.getImagem();
+                        PollyImageLoader.load(path, new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+
+                            }
+                        });
                     }
 
                     PollyConstants.getFrame().goFromTo(formPanel, PollyConstants.ARTISTS_CARD);
@@ -178,10 +195,17 @@ public class ArtistsController{
         artistsPanel.addProfileActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                BufferedImage imagem = loadedImages.get(artistaSelecionado);
+                String path = PollyConstants.ARTISTS_IMAGE_DATABASE + artistaSelecionado.getImagem();
+                BufferedImage imagem = PollyImageLoader.loadedImages.get(path);
                 if (imagem == null){
-                    addArtistaToWait(artistaSelecionado);
-                    processWaitingImages();
+
+                    PollyImageLoader.load(path, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+
+                        }
+                    });
+
                     return;
                 }
                 ProfilePanel profile = new ProfilePanel(artistaSelecionado, imagem);
@@ -212,36 +236,6 @@ public class ArtistsController{
 
     }
 
-    public void addArtistaToWait(Artista a){
-        wainting.add(a);
-    }
-    public void processWaitingImages(){
-        while (!wainting.isEmpty()){
-            Artista a = wainting.poll();
-            Worker worker = new Worker(a);
-            worker.execute();
-        }
-    }
-
-    public BufferedImage loadImage(Artista artista) throws IOException {
-        BufferedImage image = ImageIO.read(new File(PollyConstants.ARTISTS_IMAGE_DATABASE + artista.getImagem()));
-        loadedImages.put(artista, image);
-        return image;
-    }
-
-    class Worker extends SwingWorker{
-        Artista artista;
-
-        public Worker(Artista artista) {
-            this.artista = artista;
-        }
-
-        @Override
-        protected Object doInBackground() throws Exception {
-            loadImage(artista);
-            return null;
-        }
-    }
 
     private void removeArtist(Artista artista) {
         artistModel.removeElement(artista);
