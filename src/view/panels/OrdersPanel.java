@@ -9,12 +9,13 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import view.auxiliarpanels.CustomJTable;
 
 public class OrdersPanel extends JPanel {
 
     JTextField tSearch;
     JButton bPrintReport;
-    JTable tableOrders;
+    CustomJTable tableOrders;
 
     public OrdersPanel() {
         setBackground(PollyConstants.LIGHT);
@@ -30,22 +31,8 @@ public class OrdersPanel extends JPanel {
     private void initComponents() {
         tSearch = new JTextField(15);
         tSearch.setFont(PollyConstants.getLightFont(18));
-
-
-        tableOrders = new JTable(){
-            private static final long serialVersionUID = 1L;
-
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            };
-        };
-        tableOrders.setBackground(PollyConstants.LIGHT);
-        tableOrders.setSelectionBackground(PollyConstants.HIGHLIGHT);
-        tableOrders.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-        tableOrders.setFont(PollyConstants.getLightFont(18));
-
-
+        
+        tableOrders = new CustomJTable();
 
         bPrintReport = new SimpleButton("Imprimir Relatório", null, PollyConstants.LIGHT, PollyConstants.HIGHLIGHT);
         bPrintReport.setFont(PollyConstants.getBoldFont(13));

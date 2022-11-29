@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import static javax.swing.JOptionPane.showConfirmDialog;
-import view.panels.OrderingPanel;
+import view.panels.OrderingDialog;
 
 public class ArtsController {
 
@@ -25,7 +25,7 @@ public class ArtsController {
     DefaultComboBoxModel<Categoria> categoriaModel;
     PublishPanel publishPanel;
     JFileChooser fileChooser;
-    OrderingPanel orderingPanel;
+    OrderingDialog orderingPanel;
     ExplorerController explorerController;
 
     public ArtsController() {
@@ -174,7 +174,7 @@ public class ArtsController {
             public void actionPerformed(ActionEvent e) {
                 Arte arte = PollyConstants.arteSelecionada;
 
-                orderingPanel = new OrderingPanel(PollyConstants.getFrame(), true);
+                orderingPanel = new OrderingDialog(PollyConstants.getFrame(), true);
 
                 orderingPanel.setUnidadesModel(new SpinnerNumberModel(
                         1, 1, arte.getUnidades(), 1
