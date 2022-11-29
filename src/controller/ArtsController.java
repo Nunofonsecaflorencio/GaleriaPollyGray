@@ -254,7 +254,22 @@ public class ArtsController {
 
     private boolean isArtValid(Arte arte) {
         // TODO: Validade This art
-        return true;
+        String ERROS = "";
+        boolean valido = true;
+
+        if (arte.getTitulo().isEmpty()){
+            valido = false;
+            ERROS += "TÍTULO DA ARTE NÃO PODE SER VAZIO. \n";
+        }
+
+        if(arte.getPreco() < 0){
+            valido = false;
+            ERROS += "O PREÇO NÃO DEVE SER NEGATIVO. \n";
+        }
+        //..
+
+        JOptionPane.showMessageDialog(PollyConstants.getFrame(), ERROS);
+        return valido;
     }
 
 }
