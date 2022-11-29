@@ -134,7 +134,7 @@ public class ArtsController {
                     }
 
                     arteDAO.update(arte);
-
+                    refreshArts();
 
                     PollyConstants.getFrame().goFromTo(publishPanel, PollyConstants.EXPLORER_CARD);
                 }
@@ -148,6 +148,7 @@ public class ArtsController {
                 publishPanel.setCategoriesModel(categoriaModel);
                 publishPanel.addPublishActionListener(updateArt);
 
+
                 PollyConstants.getFrame().getCardsPanel().add(publishPanel, PollyConstants.PUBLISH_CARD);
                 PollyConstants.getFrame().go(PollyConstants.PUBLISH_CARD);
                 PollyConstants.lastPanel = publishPanel;
@@ -160,9 +161,8 @@ public class ArtsController {
             public void actionPerformed(ActionEvent e) {
                 Arte arte = PollyConstants.arteSelecionada;
                 arteDAO.delete(arte);
-                removeArt(arte);
+                refreshArts();
                 PollyConstants.deleteFile(new File(PollyConstants.ARTS_IMAGE_DATABASE + arte.getImagem()));
-
                 PollyConstants.getFrame().goFromTo(publishPanel, PollyConstants.EXPLORER_CARD);
             }
         };
@@ -179,6 +179,7 @@ public class ArtsController {
                 ));
 
                 orderingPanel.setPrecoUnitario(arte.getPreco());
+                orderingPanel.setPrecoTotal(arte.getPreco());
 
 
                 orderingPanel.addConfirmActionListener(new ActionListener() {
@@ -203,7 +204,18 @@ public class ArtsController {
 
                         orderingPanel.dispose();
 
+
                         // TODO: ACTUALIZAR OS DADOS DA ARTE APÓS COMPRA
+
+
+                        // Expulsar o User
+                        PollyConstants.getFrame().goFromTo(explorerController.detailPanel, PollyConstants.EXPLORER_CARD);
+                        // Mostrar Sucesso
+                        // TODO: Custom message SUCESSO COMPRA
+                        JOptionPane.showMessageDialog(frame, "COMPRA FEITA COM SUCESSO!");
+                        // REFRESH
+                        refreshArts();
+
                     }
                 });
 
@@ -223,8 +235,11 @@ public class ArtsController {
 
     }
 
-    private void removeArt(Arte arte) {
-        artesModel.removeElement(arte);
+    public void refreshArts() {
+        ArteDAO arteDAO = new ArteDAO();
+        artesModel = arteDAO.read();
+        explorerController.setModel(artesModel);
+
         JPanel[] feedPanel = PollyConstants.getFrame().getExplorerPanel().getFeedPanels();
         for (int i = 0; i < feedPanel.length; i++) {
             feedPanel[i].removeAll();
@@ -235,6 +250,7 @@ public class ArtsController {
             explorerController.showArt(artesModel.elementAt(i));
         }
     }
+
 
     private boolean isArtValid(Arte arte) {
         // TODO: Validade This art

@@ -18,6 +18,7 @@ public class PublishPanel extends JPanel {
     JFormattedTextField tPrice;
     JTextArea aDescription;
     JButton bCancel, bPublish, bImage;
+    SpinnerNumberModel spinnerModel;
 
 
     public PublishPanel(Arte arte) {
@@ -53,7 +54,8 @@ public class PublishPanel extends JPanel {
         tTitle.setText(arte.getTitulo());
         cCategory.setSelectedIndex(-1);
         cCategory.setEnabled(false);
-        sUnits.setValue(arte.getUnidades());
+        spinnerModel.setMinimum(0);
+        spinnerModel.setValue(arte.getUnidades());
         tPrice.setValue(arte.getPreco());
         tImage.setText(arte.getImagem());
         aDescription.setText(arte.getDescricao());
@@ -62,11 +64,13 @@ public class PublishPanel extends JPanel {
 
     private void initComponents() {
 
+        spinnerModel = new SpinnerNumberModel(1, 1, 100, 1);
+
         tTitle = new JTextField();
         tImage = new JTextField();
         tImage.setEditable(false);
         tImage.setBackground(PollyConstants.LIGHT);
-        sUnits = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));
+        sUnits = new JSpinner(spinnerModel);
         cCategory = new JComboBox<>();
         cCategory.setBackground(PollyConstants.LIGHT);
         tPrice = new JFormattedTextField(new Float(0));

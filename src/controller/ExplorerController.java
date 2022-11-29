@@ -81,7 +81,7 @@ public class ExplorerController {
         };
 
 
-        // IDEAL
+
         for (int i = 0; i < arts.getSize(); i++) {
             scheduleLoading(artesModel.get(i));
         }
@@ -108,5 +108,9 @@ public class ExplorerController {
         feedPanels[index].add(c);
         feedPanels[index].revalidate();
         counter++;
+    }
+
+    public void setModel(DefaultListModel<Arte> artesModel) {
+        arts = artesModel;
     }
 }
