@@ -29,7 +29,8 @@ public class PollyDatabase {
     }
 
     private static void startServer(){
-        String command = "C:\\xampp\\mysql\\bin\\mysql.exe";
+        String command = "CD c:\\xampp\\mysql\\bin\n" +
+                "&& mysql -u root -p && ''";
 
         try
         {

@@ -106,7 +106,7 @@ public class OrderingDialog extends JDialog {
         tEndereco = new JTextField();  
         
         try {
-            contactFormat = new MaskFormatter("##-###-####");
+            contactFormat = new MaskFormatter("## ### ####");
             contactFormat.setPlaceholderCharacter('-');
 
         } catch (ParseException e) {

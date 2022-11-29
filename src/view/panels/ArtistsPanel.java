@@ -48,11 +48,11 @@ public class ArtistsPanel extends JPanel {
         lArtists.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         //bSearch = new SimpleButton(null, PollyConstants.icon("search.png"), Color.WHITE, PollyConstants.HIGHLIGHT);
-        bPublish = new SimpleButton("Publicar Arte", PollyConstants.icon("publish.png"), Color.ORANGE, PollyConstants.HIGHLIGHT);
-        bProfile = new SimpleButton("Ver Perfil", null, Color.CYAN, PollyConstants.HIGHLIGHT);
-        bUpdate = new SimpleButton("Actualizar Dados", null, Color.YELLOW, PollyConstants.HIGHLIGHT);
+        bPublish = new SimpleButton("Publicar Arte", PollyConstants.icon("publish.png"), PollyConstants.LIGHT, PollyConstants.HIGHLIGHT);
+        bProfile = new SimpleButton("Ver Perfil", null, PollyConstants.LIGHT, PollyConstants.HIGHLIGHT);
+        bUpdate = new SimpleButton("Actualizar Dados", null, PollyConstants.LIGHT, PollyConstants.HIGHLIGHT);
         bDelete = new SimpleButton("Apagar Artista", null, Color.RED, PollyConstants.HIGHLIGHT);
-        bCreate = new SimpleButton("Criar Artista", null, Color.GREEN, PollyConstants.HIGHLIGHT);
+        bCreate = new SimpleButton("Criar Artista", null, PollyConstants.LIGHT, PollyConstants.HIGHLIGHT);
 
 
         for (Component c:
