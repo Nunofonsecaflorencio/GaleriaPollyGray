@@ -253,23 +253,32 @@ public class ArtsController {
 
 
     private boolean isArtValid(Arte arte) {
-        // TODO: Validade This art
         String ERROS = "";
-        boolean valido = true;
+        //String invalidSymbols = "!@#$%^&*()_+={}[]<>|";
+        boolean validTitle = true, validPrice = true, validImage = true;
 
-        if (arte.getTitulo().isEmpty()){
-            valido = false;
+        if (arte.getTitulo().isEmpty()) {
+            validTitle = false;
             ERROS += "TÍTULO DA ARTE NÃO PODE SER VAZIO. \n";
+        } else if (arte.getTitulo().length() > 100) {
+            validTitle = false;
+            ERROS += "TÍTULO DA ARTE NÃO PODE TER MAIS DE 100 CARACTERES. \n";
         }
+        
+        if (arte.getImagem().isEmpty()) {
+            validImage = false;
+            ERROS += "ADICIONE UMA IMAGEM !. \n";
+        }
+            
+        
 
-        if(arte.getPreco() < 0){
-            valido = false;
-            ERROS += "O PREÇO NÃO DEVE SER NEGATIVO. \n";
+        if(arte.getPreco() < 100){
+            validPrice = false;
+            ERROS += "O PREÇO NÃO DEVE SER MENOR QUE 100. \n";
         }
-        //..
 
         JOptionPane.showMessageDialog(PollyConstants.getFrame(), ERROS);
-        return valido;
+        return validTitle && validPrice && validImage;
     }
 
 }
