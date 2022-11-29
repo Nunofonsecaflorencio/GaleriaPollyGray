@@ -26,9 +26,6 @@ public class CompraDAO implements DAO<Compra>{
             "NOME DO CLIENTE", "ID DA ARTE", "DATA", "UNIDADES", "PREÇO TOTAL"
         });
         
-        for (int i = 0; i < 40; i++) {
-            compras.addRow(new Object[]{"Belarmino", "8", "17/09/2022", "1", "10900"});
-        }
 
         String query = "SELECT Cliente.nome, idArte, data, unidades, precoTotal " +
                 "FROM Compra, Cliente WHERE Compra.idCliente = Cliente.idCliente";

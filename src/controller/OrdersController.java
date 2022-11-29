@@ -51,25 +51,30 @@ public class OrdersController {
 
 
 
-        /*
-            Create
-         */
         ActionListener printReportListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                System.out.println("Imprimir Relatório");
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                int option = fileChooser.showOpenDialog(frame);
+                if(option == JFileChooser.APPROVE_OPTION){
+                    File file = fileChooser.getSelectedFile();
 
+                    Report report = new Report(ordersPanel.getTableOrders(), file.getPath());
+                    report.createReport();
+
+                    //TODO: Custom Dialog
+                    option =JOptionPane.showConfirmDialog(frame, "Relatório Gerado com sucesso. Deseja visualizar o Relatório?");
+
+                    if(option == JFileChooser.APPROVE_OPTION){
+                        Report.open(report.getFileName());
+                    }
+                }
             }
         };
 
-
-
-
-        /*
-            Others
-         */
-
+        ordersPanel.addPrintReportActionListener(printReportListener);
 
 
         /*

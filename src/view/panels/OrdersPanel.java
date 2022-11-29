@@ -105,7 +105,7 @@ public class OrdersPanel extends JPanel {
     }
 
 
-    public void adbPrintReportActionListener(ActionListener l){
+    public void addPrintReportActionListener(ActionListener l){
         bPrintReport.addActionListener(l);
     }
 
@@ -132,4 +132,6 @@ public class OrdersPanel extends JPanel {
             }
         });
     }
+
+
 }

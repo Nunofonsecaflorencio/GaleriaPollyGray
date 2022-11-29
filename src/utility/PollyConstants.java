@@ -40,6 +40,9 @@ public class PollyConstants {
     public static String DETAIL_CARD = "Detalhe";
     public static String ORDERS_CARD = "Compras";
 
+    public static String FUTURA_BOLD_PATH = ASSETSPATH  + "fonts\\futur.ttf";
+    public static String FUTURA_LIGHT_PATH = ASSETSPATH  + "fonts\\futuralight.ttf";
+
 
     public static Arte arteSelecionada;
     
