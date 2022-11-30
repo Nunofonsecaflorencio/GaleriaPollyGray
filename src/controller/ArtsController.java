@@ -72,10 +72,8 @@ public class ArtsController {
                     PollyConstants.copyFile(fileChooser.getSelectedFile(),
                             new File(PollyConstants.ARTS_IMAGE_DATABASE + arte.getImagem()));
                     arteDAO.create(arte);
-                    arte.setIdArte(-1);
-
-                    artesModel.insertElementAt(arte, 0);
                     explorerController.scheduleLoading(arte);
+                    refreshArts();
 
 
                     PollyConstants.getFrame().goFromTo(publishPanel, PollyConstants.ARTISTS_CARD);
@@ -247,7 +245,7 @@ public class ArtsController {
 
         explorerController.counter = 0;
         for (int i = 0; i < artesModel.size(); i++) {
-            explorerController.showArt(artesModel.elementAt(i));
+            explorerController.scheduleLoading(artesModel.elementAt(i));
         }
     }
 

@@ -2,8 +2,8 @@
 -- 1. CRIAÇÃO DA BD PollyGray --
 -- -------------------------- --
 
-CREATE DATABASE IF NOT EXISTS `pollygraydb_test`;
-USE `pollygraydb_test`;
+CREATE DATABASE IF NOT EXISTS `pollygraydb`;
+USE `pollygraydb`;
 
 -- ---------------------- --
 -- 2. CRIAÇÃO DE TABELAS  --
@@ -29,14 +29,14 @@ CREATE TABLE `arte` (
 						-- -- --
 DROP TRIGGER IF EXISTS unidades_arte_esgotadas_up;
 DELIMITER ;;
-CREATE TRIGGER unidades_arte_esgotadas_up AFTER UPDATE ON Arte 
+CREATE TRIGGER unidades_arte_esgotadas_up BEFORE UPDATE ON Arte 
 FOR EACH ROW
 
 -- Actualiza o estado da arte, Certifica quando esgota.
 
 BEGIN
 	IF (new.unidades <= 0) THEN
-		UPDATE Arte SET esgotado = TRUE;
+		SET NEW.esgotado = TRUE;
 	END IF;
 END ;;
 DELIMITER ;
@@ -234,7 +234,6 @@ BEGIN
     COMMIT;
 END ;;
 DELIMITER ;
-
 
 
 -- ---------- --

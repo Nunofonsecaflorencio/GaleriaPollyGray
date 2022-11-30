@@ -47,6 +47,7 @@ public class PollyImageLoader {
 
         @Override
         protected void done() {
+
             if (!loadedImages.containsKey(path)){
                 loadedImages.put(path, image);
             }

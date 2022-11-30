@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class PollyDatabase {
 
-    private static String DATABASE_NAME = "pollygraydb";
+    private static String DATABASE_NAME = "pollygraydb_presentation";
     private static String DBMS = "mysql";
     private static String HOST = "localhost";
     private static String PORT = "3306";
