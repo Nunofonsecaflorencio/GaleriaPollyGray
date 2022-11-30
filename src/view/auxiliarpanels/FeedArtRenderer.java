@@ -5,12 +5,17 @@ import utility.PollyConstants;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
 public class FeedArtRenderer extends JPanel {
     Arte arte;
     ImageRenderer pImage;
+    JTextArea aTitulo;
+
+    JPanel titlePanel;
 
     public FeedArtRenderer(Arte arte, BufferedImage image, MouseListener listener) {
         this.arte = arte;
@@ -23,18 +28,28 @@ public class FeedArtRenderer extends JPanel {
         setBackground(PollyConstants.LIGHT);
         setLayout(new BorderLayout());
         add(pImage, BorderLayout.CENTER);
+        
+        aTitulo = new JTextArea();
+        aTitulo.setBorder(null);
+        aTitulo.setWrapStyleWord(true);
+        aTitulo.setLineWrap(true);
+        aTitulo.setEditable(false);
+        aTitulo.setFont(PollyConstants.getLightFont(16));
+        aTitulo.setColumns(20);
 
-        JLabel title = new JLabel(((arte.getIdArte() >= 0) ? arte.getIdArte() + ". " : "")
-                + arte.getTitulo() + (
-                (arte.getUnidades() == 0) ? "   [ESGOTADO]" : ""));
-        title.setFont(PollyConstants.getLightFont(14));
+        aTitulo.setText(
+                        ((arte.getIdArte() >= 0) ? arte.getIdArte() + ". " : "")
+                        + arte.getTitulo() +
+                        ((arte.getUnidades() == 0) ? "   [ESGOTADO]" : "")
+        );
 
-        JPanel p = new JPanel(new FlowLayout(FlowLayout.LEADING));
-        p.setBackground(PollyConstants.LIGHT);
-        p.setBorder(BorderFactory.createEmptyBorder(2, 0, 15, 0));
-        p.add(title);
-        add(p, BorderLayout.SOUTH);
-        title.setMaximumSize(new Dimension(getWidth() - 10, 99));
+
+
+        titlePanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
+        titlePanel.setBackground(PollyConstants.LIGHT);
+        titlePanel.setBorder(BorderFactory.createEmptyBorder(2, 0, 15, 0));
+        titlePanel.add(aTitulo);
+        add(titlePanel, BorderLayout.SOUTH);
     }
 
     public Arte getArte() {

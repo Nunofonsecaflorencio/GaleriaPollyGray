@@ -95,11 +95,13 @@ public class PollyConstants {
     }
 
     public static String formatDate(String s){
+        if (s.isEmpty()) return "";
         String[] tokens = s.split(" / ");
         return tokens[2] + "-" + tokens[1] + "-" + tokens[0];
     }
 
     public static String reformatDate(String s){
+        if (s.isEmpty()) return "";
         String[] tokens = s.split("-");
         return tokens[2] + " / " + tokens[1] + " / " + tokens[0];
     }
