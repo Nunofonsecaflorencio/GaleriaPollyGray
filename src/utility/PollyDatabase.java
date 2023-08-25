@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class PollyDatabase {
 
-    private static String DATABASE_NAME = "pollygraydb_presentation";
+    private static String DATABASE_NAME = "pollygray";
     private static String DBMS = "mysql";
     private static String HOST = "localhost";
     private static String PORT = "3306";
@@ -19,12 +19,16 @@ public class PollyDatabase {
     static {
         //startServer();
         String URL = String.format("jdbc:%s://%s:%s/%s", DBMS, HOST, PORT, DATABASE_NAME);
+//        String URL = "jdbc:sqlite:sqlite/pollygray.db";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
+//            connection = DriverManager.getConnection(URL);
             System.out.println("[DEBUG] CONNECTION CREATED");
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch  ( SQLException e) {
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 

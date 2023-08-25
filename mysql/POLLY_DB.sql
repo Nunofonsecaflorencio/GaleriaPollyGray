@@ -268,7 +268,8 @@ CREATE INDEX i_DataNascimento_Arte ON Artista (ano);
 INSERT INTO `artista` VALUES (1,'Nuno Fonseca Florencio','2003-10-31','Pessoal: +258 84 3698 443\nEmail: nunofonsecaflorencio@gmail.com\nInstagram: @nuno2f','Sou um artista gráfico.\n\nTrabalho com:\n- Manipulação de imagens;\n- Criação de Logotipos e Identidade Visual;\n- Desenhos vectoriais.\n\nEspero que gostes do meu trabalho artístico.','toolate.jpg','2003')
 ,(7,'Belarmino Junior','2003-09-17','Email: belarminosimaojunior@petalmail.com\nInstagram: @wonderr____\nWhtasApp: +258 85 637 9600','Let\'s leave it empty !!!','Bela.jpg','2003');
 
-INSERT INTO `categoria` VALUES (1,'Conceptual',-1),(2,'Rupestre',0);
+INSERT INTO `categoria` VALUES (1,'Conceptual',-1),(2,'Rupestre',0), (3,'Ilustração',0), (4,'Caricatura',0), (5,'Gráfico',0), (6,'Moderno',0) (7,'Outros',0);
+
 
 CALL publicar_arte(1, 1, 'Barretinho', 1, 500, 'barreto.jpg', 'Você bota fogo no circo?\nO que você faz com as criançãs lá dentro?\n~Barreto');
 
